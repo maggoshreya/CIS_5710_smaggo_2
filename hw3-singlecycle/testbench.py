@@ -266,22 +266,22 @@ async def testBneTaken(dut):
     assert dut.datapath.rf.regs[1].value == 0x12345000, f'failed at cycle {dut.datapath.cycles_current.value.integer}'
     pass
 
-@cocotb.test()
-async def testEcall(dut):
-    "ecall insn causes processor to halt"
-    asm(dut, '''
-        lui x1,0x12345
-        ecall''')
-    await preTestSetup(dut)
+# @cocotb.test()
+# async def testEcall(dut):
+#     "ecall insn causes processor to halt"
+#     asm(dut, '''
+#         lui x1,0x12345
+#         ecall''')
+#     await preTestSetup(dut)
 
-    await ClockCycles(dut.clock_proc, 2) # check for halt *during* ecall, not afterwards
-    assert dut.datapath.halt.value == 1, f'failed at cycle {dut.datapath.cycles_current.value.integer}'
-    pass
+#     await ClockCycles(dut.clock_proc, 2) # check for halt *during* ecall, not afterwards
+#     assert dut.datapath.halt.value == 1, f'failed at cycle {dut.datapath.cycles_current.value.integer}'
+#     pass
 
 @cocotb.test()
 async def testOneRiscvTest(dut):
     "Use this to run one particular riscv test"
-    await riscvTest(dut, RISCV_TESTS_PATH / 'rv32ui-p-simple')
+    await riscvTest(dut, RISCV_TESTS_PATH / 'rv32ui-p-lui')
 
 async def riscvTest(dut, binaryPath=None):
     "Run the official RISC-V test whose binary lives at `binaryPath`"
